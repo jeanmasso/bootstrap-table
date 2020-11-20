@@ -1,0 +1,11 @@
+input {
+  margin: 5px;
+  border: 2px solid #000000; }
+
+.action {
+  display: flex; }
+
+.action button {
+  margin: 0 2px; }
+
+/*# sourceMappingURL=style.css.map */
