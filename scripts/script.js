@@ -7,10 +7,9 @@ $(document).ready(function () {
         classes: 'table table-hover table-bordered table-sm',
         pagination: true,
         pageSize: 15,
-        pageList: '[25, 50, 100, 200, Tous]',
+        pageList: ['15','25'],
         idField: 'id',
         sortName: 'id',
-        search: '2',
         searchOnEnterKey: true,
         theadClasses: 'thead-light',
         filterControl: true,
@@ -18,7 +17,7 @@ $(document).ready(function () {
         columns: [{
             field: '',
             title: '',
-            titleTooltip: '',
+            titleTooltip: 'Selectionner un/plusieurs employé(s)',
             width: '50',
             align: 'center',
             checkbox: true,
@@ -26,34 +25,33 @@ $(document).ready(function () {
         }, {
             field: 'id',
             title: 'Identifiant',
-            titleTooltip: '',
+            titleTooltip: 'Colonne des identifiants des employés',
             width: '50',
             align: 'center',
             sortable: true,
             formatter: 'fieldFormatter',
-            filterControl: 'input'
         }, {
             field: 'employee_name',
             title: 'Name',
-            titleTooltip: '',
+            titleTooltip: 'Colonne des noms des employés',
             // width: '50',
-            // align: 'center',
+            align: 'center',
             sortable: true,
             formatter: 'fieldFormatter',
             filterControl: 'input'
         }, {
             field: 'employee_salary',
             title: 'Salary',
-            titleTooltip: '',
+            titleTooltip: 'Colonne des salaires des employés',
             // width: '50',
-            // align: 'center',
-            searchSelector: '#salary',
+            align: 'center',
+            filterControl: 'input',
             sortable: true,
             formatter: 'fieldFormatter',
         }, {
             field: '',
             title: 'Action',
-            titleTooltip: '',
+            titleTooltip: 'Colonne des différents actions possibles',
             width: '50',
             align: 'center',
             // sortable: true,
@@ -87,10 +85,10 @@ function actionFormatter(value, row, index) { // Fonction permettant l'affichage
 
     var str = `
         <div class="action">
-          <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')" title="Afficher les information de cet employee"><i class="fas fa-pencil-alt"></i></button>
-          <button class="btn btn-tags" type="button" onclick="addTagsEmployee(' + row.id + ')" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>
-          <button class="btn btn-export" type="button" onclick="exportEmployee(' + row.id + ')" title="Exporter cet employee"><i class="fas fa-upload"></i></button>
-          <button class="btn btn-delete" type="button" onclick="removeEmployee(' + row.id + ')" title="Supprimer cet employee"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#detailsEmployee" onclick="` + 'getDetailEmployee(' + row.id + ')' + `" title="Afficher les information de cet employee"><i class="fas fa-pencil-alt"></i></button>
+          <button class="btn btn-tags" type="button" onclick="` + 'addTagsEmployee(' + row.id + ')' + `" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>
+          <button class="btn btn-export" type="button" onclick="` + 'exportEmployee(' + row.id + ')' + `" title="Exporter cet employee"><i class="fas fa-upload"></i></button>
+          <button class="btn btn-delete" type="button" onclick="` + 'removeEmployee(' + row.id + ')' + `" title="Supprimer cet employee"><i class="fas fa-trash-alt"></i></button>
         </div>    
     `;
     return str;
