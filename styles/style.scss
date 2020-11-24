@@ -1,15 +1,16 @@
-$border-color: 2px solid #000000;
-$input-margin: 5px;
+$input-margin: 0 5%;
+$input-width: 90%;
 
-input {
+.search-input {
+  width: $input-width !important;
   margin: $input-margin;
-  border: $border-color;
 }
 
 .action {
   display: flex;
 }
 
-.action button {
+.action .btn {
   margin: 0 2px;
 }
+

@@ -14,9 +14,14 @@ $(document).ready(function () {
         theadClasses: 'thead-light',
         filterControl: true,
         clickToSelect: true,
+        showExport: true,
+        exportTypes: ['txt', 'sql', 'excel', 'pdf'],
+        exportOptions: {
+            ignoreColumn: ['action'],
+        },
+        buttons: 'buttons',
         columns: [{
-            field: '',
-            title: '',
+            field: 'state',
             titleTooltip: 'Selectionner un/plusieurs employé(s)',
             width: '50',
             align: 'center',
@@ -37,8 +42,8 @@ $(document).ready(function () {
             // width: '50',
             align: 'center',
             sortable: true,
-            formatter: 'fieldFormatter',
-            filterControl: 'input'
+            filterControl: 'input',
+            formatter: 'fieldFormatter'
         }, {
             field: 'employee_salary',
             title: 'Salary',
@@ -49,7 +54,25 @@ $(document).ready(function () {
             sortable: true,
             formatter: 'fieldFormatter',
         }, {
-            field: '',
+            field: 'employee_age',
+            title: 'Age',
+            titleTooltip: "Colonne de l'age des employés",
+            // width: '50',
+            align: 'center',
+            filterControl: 'input',
+            sortable: true,
+            formatter: 'fieldFormatter',
+        }, {
+            field: 'profile_image',
+            title: 'Profile image',
+            titleTooltip: 'Colonne des images du profile des employés',
+            // width: '50',
+            align: 'center',
+            filterControl: 'input',
+            sortable: true,
+            formatter: 'fieldFormatter',
+        }, {
+            field: 'action',
             title: 'Action',
             titleTooltip: 'Colonne des différents actions possibles',
             width: '50',
@@ -74,7 +97,7 @@ function getEmployee() {
 
 }
 
-function fieldFormatter(value, row, index) { //compte/tierscompte?compte=411000
+function fieldFormatter(value, row, index) {
 
     var txt = '<span class="field" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')">' + (((value != 0) && (value != null)) ? value : '') + '</span>';
     return txt;
@@ -85,30 +108,46 @@ function actionFormatter(value, row, index) { // Fonction permettant l'affichage
 
     var str = `
         <div class="action">
-          <button class="btn btn-edit" type="button" data-toggle="modal" data-target="#detailsEmployee" onclick="` + 'getDetailEmployee(' + row.id + ')' + `" title="Afficher les information de cet employee"><i class="fas fa-pencil-alt"></i></button>
-          <button class="btn btn-tags" type="button" onclick="` + 'addTagsEmployee(' + row.id + ')' + `" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>
-          <button class="btn btn-export" type="button" onclick="` + 'exportEmployee(' + row.id + ')' + `" title="Exporter cet employee"><i class="fas fa-upload"></i></button>
-          <button class="btn btn-delete" type="button" onclick="` + 'removeEmployee(' + row.id + ')' + `" title="Supprimer cet employee"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn btn-edit btn-dark" type="button" data-toggle="modal" data-target="#detailsEmployee" onclick="` + 'getDetailEmployee(' + row.id + ')' + `" title="Afficher les information de cet employee"><i class="fas fa-pencil-alt"></i></button>
+          <button class="btn btn-tags btn-dark" type="button" onclick="` + 'addTagsEmployee(' + row.id + ')' + `" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>
+          <button class="btn btn-delete btn-danger" type="button" onclick="` + 'removeEmployee(' + row.id + ')' + `" title="Supprimer cet employee"><i class="fas fa-trash-alt"></i></button>
         </div>    
     `;
     return str;
 
 }
 
+// Création des boutons de la barre d'outils
+function buttons () {
+    return {
+        btnAdd: {
+            icon: 'fa-plus',
+            attributes: {
+                title: 'Créer un nouvel employé',
+                'data-toggle': 'modal',
+                'data-target': '#createEmployee'
+            }
+        }
+    }
+}
+
 // Création d'un employé
 $('#btn-create').click(function () {
-    $id = $('#crt-employee-id').val();
     $name = $('#crt-employee-name').val();
     $salary = $('#crt-employee-salary').val();
+    $age = $('#crt-employee-age').val();
+    $image = $('#crt-profile-image').val();
     $.post(
         $API + '/create',
         {
             employee_name: $name,
             employee_salary: $salary,
+            employee_age: $age,
+            profile_image: $image
         },
         function (data) {
             $data = data.data;
-            $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary;
+            $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
             alert(data.message + $newEmployee);
 
             $table.bootstrapTable('insertRow',
@@ -117,7 +156,9 @@ $('#btn-create').click(function () {
                     row: {
                         id: $data.id,
                         employee_name: $data.employee_name,
-                        employee_salary: $data.employee_salary
+                        employee_salary: $data.employee_salary,
+                        employee_age: $data.employee_age,
+                        profile_image: $data.profile_image
                     }
                 }
             );

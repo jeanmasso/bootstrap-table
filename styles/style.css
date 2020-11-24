@@ -1,11 +1,11 @@
-input {
-  margin: 5px;
-  border: 2px solid #000000; }
+.search-input {
+  width: 90% !important;
+  margin: 0 5%; }
 
 .action {
   display: flex; }
 
-.action button {
+.action .btn {
   margin: 0 2px; }
 
 /*# sourceMappingURL=style.css.map */
