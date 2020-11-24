@@ -24,9 +24,9 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Création d'un employé</h5>
-          <button type="button" class="btn btn-register" id="btn-create">Créer <i class="fas fa-check"></i>
+          <button type="button" class="btn btn-register btn-primary" id="btn-create">Créer <i class="fas fa-check"></i>
           </button>
-          <button type="button" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
+          <button type="button" class="btn btn-cancel btn-warning" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
           </button>
         </div>
         <div class="modal-body">
@@ -42,14 +42,10 @@
                 <label for="crt-employee-salary">Salary</label>
                 <input type="text" class="form-control" id="crt-employee-salary" placeholder="Salary">
               </div>
-            </div>
-            <div class="form-row">
               <div class="form-group col-4">
                 <label for="crt-employee-age">Age</label>
                 <input type="text" class="form-control" id="crt-employee-age" placeholder="Age">
               </div>
-            </div>
-            <div class="form-row">
               <div class="form-group col-4">
                 <label for="crt-profile-image">Profile image</label>
                 <input type="text" class="form-control" id="crt-profile-image" placeholder="Profile image">
@@ -67,29 +63,37 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLongTitle">Modifier les informations de l'article</h5>
-          <button type="button" class="btn btn-register" id="btn-register">Enregistrer <i class="fas fa-check"></i>
+          <button type="button" class="btn btn-register btn-primary" id="btn-register">Enregistrer <i class="fas fa-check"></i>
           </button>
-          <button type="button" class="btn btn-cancel" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
+          <button type="button" class="btn btn-cancel btn-warning" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
           </button>
         </div>
         <div class="modal-body">
           <form>
             <div class="form-row">
-              <div class="form-group col-6">
+              <div class="form-group col-4">
                 <label for="employee-id">Id</label>
                 <input type="text" class="form-control" id="employee-id" placeholder="Id">
               </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-12">
+              <div class="form-group col-8">
                 <label for="employee-name">Name</label>
                 <input type="text" class="form-control" id="employee-name" placeholder="Name">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-4">
-                <label for="employee-salary">Profile image</label>
-                <input type="text" class="form-control" id="employee-salary" placeholder="Profile image">
+                <label for="employee-salary">Salary</label>
+                <input type="text" class="form-control" id="employee-salary" placeholder="Salary">
+              </div>
+              <div class="form-group col-4">
+                <label for="employee-age">Age</label>
+                <input type="text" class="form-control" id="employee-age" placeholder="Age">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-6">
+                <label for="profile-image">Profile image</label>
+                <input type="text" class="form-control" id="profile-image" placeholder="Profile image">
               </div>
             </div>
           </form>
@@ -109,6 +113,7 @@
 <script src="node_modules/bootstrap-table/dist/bootstrap-table.min.js"></script>
 <script src="node_modules/bootstrap-table/dist/extensions/filter-control/bootstrap-table-filter-control.js"></script>
 <script src="node_modules/bootstrap-table/dist/extensions/export/bootstrap-table-export.min.js"></script>
+<script src="node_modules/bootstrap-table/dist/extensions/print/bootstrap-table-print.min.js"></script>
 
 <script src="scripts/script.js"></script>
 </body>

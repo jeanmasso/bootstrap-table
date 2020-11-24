@@ -10,7 +10,6 @@ $(document).ready(function () {
         pageList: ['15','25'],
         idField: 'id',
         sortName: 'id',
-        searchOnEnterKey: true,
         theadClasses: 'thead-light',
         filterControl: true,
         clickToSelect: true,
@@ -20,12 +19,14 @@ $(document).ready(function () {
             ignoreColumn: ['action'],
         },
         buttons: 'buttons',
+        showPrint: true,
         columns: [{
             field: 'state',
             titleTooltip: 'Selectionner un/plusieurs employé(s)',
             width: '50',
             align: 'center',
             checkbox: true,
+            printIgnore: true,
             formatter: 'fieldFormatter'
         }, {
             field: 'id',
@@ -77,6 +78,7 @@ $(document).ready(function () {
             titleTooltip: 'Colonne des différents actions possibles',
             width: '50',
             align: 'center',
+            printIgnore: true,
             // sortable: true,
             formatter: 'actionFormatter'
         }]
@@ -192,6 +194,8 @@ function getDetailEmployee(idEmployee) {
     $id = $('#employee-id');
     $name = $('#employee-name');
     $salary = $('#employee-salary');
+    $age = $('#employee-age');
+    $image = $('#profile-image');
 
     if (!idEmployee) return false;
 
@@ -204,6 +208,8 @@ function getDetailEmployee(idEmployee) {
             $id.val(employee.id);
             $name.val(employee.employee_name);
             $salary.val(employee.employee_salary);
+            $age.val(employee.employee_age);
+            $image.val(employee.profile_image);
         }
     });
 
@@ -224,7 +230,9 @@ function getDetailEmployee(idEmployee) {
                         row: {
                             id: idEmployee,
                             employee_name: $name.val(),
-                            employee_salary: $salary.val()
+                            employee_salary: $salary.val(),
+                            employee_age: $age.val(),
+                            profile_image: $image.val()
                         }
                     }
                 );
