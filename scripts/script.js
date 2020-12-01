@@ -1,8 +1,9 @@
 $(document).ready(function () {
 
     $table = $('#table');
-    $API = 'http://dummy.restapiexample.com/api/v1';
+    $API = 'http://dummy.restapiexample.com/api/v1'; // URL de l'API
 
+    // Création de la table généré par BootstrapTable
     $table.bootstrapTable({
         classes: 'table table-hover table-bordered table-sm',
         pagination: true,
@@ -87,6 +88,7 @@ $(document).ready(function () {
     getEmployee();
 })
 
+// Récupération des données de l'API chargée à l'intérieur de l'API
 function getEmployee() {
 
     $.get(
@@ -99,6 +101,7 @@ function getEmployee() {
 
 }
 
+// Fonction permettant au clique sur les <span> d'ouvrir la modal des détails d'un employé
 function fieldFormatter(value, row, index) {
 
     var txt = '<span class="field" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')">' + (((value != 0) && (value != null)) ? value : '') + '</span>';
@@ -106,7 +109,9 @@ function fieldFormatter(value, row, index) {
 
 }
 
-function actionFormatter(value, row, index) { // Fonction permettant l'affichage des boutons dans la colonne "Action"
+
+// Fonction permettant l'affichage des boutons dans la colonne "Action" pour chaque ligne d'un employé
+function actionFormatter(value, row, index) { 
 
     var str = `
         <div class="action">
@@ -151,7 +156,7 @@ $('#btn-create').click(function () {
             $data = data.data;
             $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
             alert(data.message + $newEmployee);
-
+            // Insertion de la ligne de l'employé dans la table
             $table.bootstrapTable('insertRow',
                 {
                     index: $data.id,
