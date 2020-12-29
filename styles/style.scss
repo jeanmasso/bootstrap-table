@@ -14,3 +14,17 @@ $input-width: 90%;
   margin: 0 2px;
 }
 
+.dropdown-menu-tags {max-width: 20rem;}
+
+.form-inline-tags {padding: 0.5rem 1rem;}
+
+.badge{
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.create-tag:hover {
+  background-color: #eee;
+  cursor: pointer;
+}

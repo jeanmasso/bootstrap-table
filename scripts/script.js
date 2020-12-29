@@ -5,14 +5,14 @@ $(document).ready(function () {
 
     $table.bootstrapTable({
         classes: 'table table-hover table-bordered table-sm',
+        theadClasses: 'thead-light',
         pagination: true,
         pageSize: 15,
-        pageList: ['15','25'],
+        pageList: ['15', '25'],
         idField: 'id',
         sortName: 'id',
-        theadClasses: 'thead-light',
+        selectItemName: 'selectItemName',
         filterControl: true,
-        clickToSelect: true,
         showExport: true,
         exportTypes: ['txt', 'sql', 'excel', 'pdf'],
         exportOptions: {
@@ -58,7 +58,7 @@ $(document).ready(function () {
             field: 'employee_age',
             title: 'Age',
             titleTooltip: "Colonne de l'age des employés",
-            // width: '50',
+            width: '50',
             align: 'center',
             filterControl: 'input',
             sortable: true,
@@ -69,24 +69,33 @@ $(document).ready(function () {
             titleTooltip: 'Colonne des images du profile des employés',
             // width: '50',
             align: 'center',
-            filterControl: 'input',
             sortable: true,
             formatter: 'fieldFormatter',
+        }, {
+            field: 'tags',
+            title: 'Tags',
+            titleTooltip: 'Colonne des tags associés aux employés',
+            // width: '50',
+            align: 'center',
+            sortable: true,
+            formatter: "tagsFormatter",
         }, {
             field: 'action',
             title: 'Action',
             titleTooltip: 'Colonne des différents actions possibles',
-            width: '50',
+            // width: '50',
             align: 'center',
             printIgnore: true,
-            // sortable: true,
+            sortable: true,
             formatter: 'actionFormatter'
         }]
     });
 
     getEmployee();
-})
 
+});
+
+// Fonction d'accès à la liste des donées des employés
 function getEmployee() {
 
     $.get(
@@ -99,24 +108,29 @@ function getEmployee() {
 
 }
 
+// Fonction permettant lors d'un clique sur le texte l'affichage des détails de l'employé
 function fieldFormatter(value, row, index) {
-
     var txt = '<span class="field" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')">' + (((value != 0) && (value != null)) ? value : '') + '</span>';
     return txt;
-
 }
 
-function actionFormatter(value, row, index) { // Fonction permettant l'affichage des boutons dans la colonne "Action"
+// Fonction permettant l'affichage des boutons dans la colonne "Action"
+function actionFormatter(value, row, index) {
 
     var str = `
         <div class="action">
           <button class="btn btn-edit btn-dark" type="button" data-toggle="modal" data-target="#detailsEmployee" onclick="` + 'getDetailEmployee(' + row.id + ')' + `" title="Afficher les information de cet employee"><i class="fas fa-pencil-alt"></i></button>
-          <button class="btn btn-tags btn-dark" type="button" onclick="` + 'addTagsEmployee(' + row.id + ')' + `" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>
+<!--          <button class="btn btn-tags btn-dark" type="button" onclick="` + 'addTagsEmployee(' + row.id + ')' + `" title="Ajouter des étiquettes à cet employee"><i class="fas fa-tag"></i></button>-->
           <button class="btn btn-delete btn-danger" type="button" onclick="` + 'removeEmployee(' + row.id + ')' + `" title="Supprimer cet employee"><i class="fas fa-trash-alt"></i></button>
-        </div>    
+        </div>
     `;
     return str;
 
+}
+
+function tagsFormatter(value, row, index) {
+    var tags = '<div class="content-tags">'+ (((value != 0) && (value != null)) ? value : '')  +'</div>';
+    return tags;
 }
 
 // Création des boutons de la barre d'outils
@@ -173,7 +187,7 @@ $('#btn-create').click(function () {
 // Suppression d'un employé
 function removeEmployee(idEmployee) {
 
-    // Suppression de l'emplyé dans l'API
+    // Suppression de l'employé dans l'API
     $.ajax({
         url: $API + '/delete/' + idEmployee,
         type: 'DELETE',
@@ -242,3 +256,53 @@ function getDetailEmployee(idEmployee) {
     });
 
 }
+
+// Barre de recherche des tags
+function searchTag() {
+    var searchbar, filter, tagList, div, a, i, txtValue;
+    searchbar = document.getElementById("searchbar");
+    filter = searchbar.value.toUpperCase();
+    tagList = document.getElementById("searchTagList");
+    div = tagList.getElementsByTagName("div");
+    for (i = 0; i < div.length; i++) {
+        a = div[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent || a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            div[i].style.display = "";
+        } else {
+            div[i].style.display = "none";
+        }
+    }
+}
+
+// Création de tags
+function createTag() {
+    var newTag = $("#newTag").val();
+    var newTagColor = $("#newTagColor").val();
+    if (newTag === "") return ''; else {
+        $("#searchTagList").append(`
+            <div class="tag p-1" onclick="addTag()"><a class="dropdown-item badge m-0" style="background-color: ${newTagColor}; color: white;">${newTag} <i class="fas fa-times" onclick="removeTag()"></i></a></li>
+        `);
+        $("#modalTagList").append(`
+            <div class="tag p-1" onclick="addTag()"><a class="dropdown-item badge m-0" style="background-color: ${newTagColor}; color: white;">${newTag} <i class="fas fa-times" onclick="removeTag()"></i></a></div>
+        `);
+        $("#newTag").val("");
+    };
+}
+
+// Suppression des tags
+function removeTag(){
+    $(".badge").parent(".tag").remove();
+}
+
+function addTag() {
+    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++){
+        $table.bootstrapTable('updateRow', {
+            index: $table.bootstrapTable('getSelections')[i].id - 1,
+            row: {
+                tags: $(".tag").html(),
+            }
+        });
+    }
+}
+
