@@ -1,8 +1,9 @@
 $(document).ready(function () {
 
     $table = $('#table');
-    $API = 'http://dummy.restapiexample.com/api/v1';
+    $API = 'http://dummy.restapiexample.com/api/v1'; // URL de l'API
 
+    // Création de la table généré par BootstrapTable
     $table.bootstrapTable({
         classes: 'table table-hover table-bordered table-sm',
         theadClasses: 'thead-light',
@@ -93,9 +94,13 @@ $(document).ready(function () {
 
     getEmployee();
 
+<<<<<<< HEAD
 });
 
 // Fonction d'accès à la liste des donées des employés
+=======
+// Récupération des données de l'API chargée à l'intérieur de l'API
+>>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
 function getEmployee() {
 
     $.get(
@@ -108,14 +113,24 @@ function getEmployee() {
 
 }
 
+<<<<<<< HEAD
 // Fonction permettant lors d'un clique sur le texte l'affichage des détails de l'employé
+=======
+// Fonction permettant au clique sur les <span> d'ouvrir la modal des détails d'un employé
+>>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
 function fieldFormatter(value, row, index) {
     var txt = '<span class="field" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')">' + (((value != 0) && (value != null)) ? value : '') + '</span>';
     return txt;
 }
 
+<<<<<<< HEAD
 // Fonction permettant l'affichage des boutons dans la colonne "Action"
 function actionFormatter(value, row, index) {
+=======
+
+// Fonction permettant l'affichage des boutons dans la colonne "Action" pour chaque ligne d'un employé
+function actionFormatter(value, row, index) { 
+>>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
 
     var str = `
         <div class="action">
@@ -165,7 +180,7 @@ $('#btn-create').click(function () {
             $data = data.data;
             $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
             alert(data.message + $newEmployee);
-
+            // Insertion de la ligne de l'employé dans la table
             $table.bootstrapTable('insertRow',
                 {
                     index: $data.id,
