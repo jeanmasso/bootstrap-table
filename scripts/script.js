@@ -1,8 +1,8 @@
+var j = 0;
+var $table = $('#table');
+var $API = 'http://dummy.restapiexample.com/api/v1'; // URL de l'API
+
 $(document).ready(function () {
-
-    $table = $('#table');
-    $API = 'http://dummy.restapiexample.com/api/v1'; // URL de l'API
-
     // Création de la table généré par BootstrapTable
     $table.bootstrapTable({
         classes: 'table table-hover table-bordered table-sm',
@@ -93,14 +93,9 @@ $(document).ready(function () {
     });
 
     getEmployee();
-
-<<<<<<< HEAD
 });
 
-// Fonction d'accès à la liste des donées des employés
-=======
-// Récupération des données de l'API chargée à l'intérieur de l'API
->>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
+// Récupération des données de l'API chargée à l'intérieur de la table
 function getEmployee() {
 
     $.get(
@@ -113,24 +108,14 @@ function getEmployee() {
 
 }
 
-<<<<<<< HEAD
-// Fonction permettant lors d'un clique sur le texte l'affichage des détails de l'employé
-=======
 // Fonction permettant au clique sur les <span> d'ouvrir la modal des détails d'un employé
->>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
 function fieldFormatter(value, row, index) {
     var txt = '<span class="field" data-toggle="modal" data-target="#detailsEmployee" onclick="getDetailEmployee(' + row.id + ')">' + (((value != 0) && (value != null)) ? value : '') + '</span>';
     return txt;
 }
 
-<<<<<<< HEAD
-// Fonction permettant l'affichage des boutons dans la colonne "Action"
-function actionFormatter(value, row, index) {
-=======
-
 // Fonction permettant l'affichage des boutons dans la colonne "Action" pour chaque ligne d'un employé
-function actionFormatter(value, row, index) { 
->>>>>>> 4ed75122882e5adb7d4db5ae2d928b39b3d9fbed
+function actionFormatter(value, row, index) {
 
     var str = `
         <div class="action">
@@ -143,6 +128,7 @@ function actionFormatter(value, row, index) {
 
 }
 
+// Fonction permettant l'affichage des tags dans la colonne "Tags" pour chaque ligne d'un employé
 function tagsFormatter(value, row, index) {
     var tags = '<div class="content-tags">'+ (((value != 0) && (value != null)) ? value : '')  +'</div>';
     return tags;
@@ -272,7 +258,7 @@ function getDetailEmployee(idEmployee) {
 
 }
 
-// Barre de recherche des tags
+/* Barre de Recherche des tags */
 function searchTag() {
     var searchbar, filter, tagList, div, a, i, txtValue;
     searchbar = document.getElementById("searchbar");
@@ -290,34 +276,40 @@ function searchTag() {
     }
 }
 
-// Création de tags
-function createTag() {
-    var newTag = $("#newTag").val();
-    var newTagColor = $("#newTagColor").val();
-    if (newTag === "") return ''; else {
-        $("#searchTagList").append(`
-            <div class="tag p-1" onclick="addTag()"><a class="dropdown-item badge m-0" style="background-color: ${newTagColor}; color: white;">${newTag} <i class="fas fa-times" onclick="removeTag()"></i></a></li>
-        `);
-        $("#modalTagList").append(`
-            <div class="tag p-1" onclick="addTag()"><a class="dropdown-item badge m-0" style="background-color: ${newTagColor}; color: white;">${newTag} <i class="fas fa-times" onclick="removeTag()"></i></a></div>
-        `);
+$("#createTag").click(function() {
+
+    var newTag = '<div class="tag'+j+' p-1" onclick="addTagInTable(' + j + ')">'
+        + '<a href="#" class="dropdown-item badge badge' + j + ' m-0" style="background-color: ' + $("#newTagColor").val() + '; color: white;">'
+        + $("#newTag").val() + ' <i onclick="removeTag(' + j + ')" class="fas fa-times"></i>'
+        + '</a></div>';
+
+    if ($("#newTag").val() === "") return ''; else {
+        j = j;
+        $("#searchTagList").append(newTag);
+        $("#modalTagList").append(newTag);
         $("#newTag").val("");
+        j++;
     };
+
+})
+
+/* Fonction de suppression d'un tag par rapport au nom de classe */
+function removeTag(param) {
+    $(".badge"+param).append(".tag"+param).remove();
 }
 
-// Suppression des tags
-function removeTag(){
-    $(".badge").parent(".tag").remove();
-}
+/* Ajout de tags aux lignes sélectionnées dans la colonne "Tags" */
+function addTagInTable(param) {
 
-function addTag() {
     for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++){
-        $table.bootstrapTable('updateRow', {
+        $table.bootstrapTable('updateCell', {
             index: $table.bootstrapTable('getSelections')[i].id - 1,
-            row: {
-                tags: $(".tag").html(),
-            }
+            field: 'tags',
+            value: $(".tag"+param).html(),
         });
     }
+
 }
+
+
 
