@@ -27,8 +27,7 @@ $(document).ready(function () {
             width: '50',
             align: 'center',
             checkbox: true,
-            printIgnore: true,
-            formatter: 'fieldFormatter'
+            printIgnore: true
         }, {
             field: 'id',
             title: 'Identifiant',
@@ -276,11 +275,13 @@ function searchTag() {
     }
 }
 
+/* Création des tags */
 $("#createTag").click(function() {
-
-    var newTag = '<div class="tag'+j+' p-1" onclick="addTagInTable(' + j + ')">'
-        + '<a href="#" class="dropdown-item badge badge' + j + ' m-0" style="background-color: ' + $("#newTagColor").val() + '; color: white;">'
-        + $("#newTag").val() + ' <i onclick="removeTag(' + j + ')" class="fas fa-times"></i>'
+    var tagColor = $("#newTagColor").val();
+    var tagValue = $("#newTag").val();
+    var newTag = '<div class="tag'+j+' p-1" onclick="addTagInTable(' + j + ',\''+ tagValue +'\',\''+ tagColor +'\')">'
+        + '<a href="#" class="dropdown-item badge badge' + j + ' m-0" style="background-color: ' + tagColor + '; color: white;">'
+        + tagValue + ' <i onclick="removeTag(' + j + ')" class="fas fa-times"></i>'
         + '</a></div>';
 
     if ($("#newTag").val() === "") return ''; else {
@@ -293,19 +294,37 @@ $("#createTag").click(function() {
 
 })
 
-/* Fonction de suppression d'un tag par rapport au nom de classe */
+/* Fonction de suppression des tags de manière généralisé */
 function removeTag(param) {
-    $(".badge"+param).append(".tag"+param).remove();
+    $(".tag"+param).remove();
+    $(".tag-table"+param).remove();
+}
+
+/* Fonction de suppression des tags uniquement sur la table */
+function removeTagSingle(param) {
+    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++) {
+        var value = $(".tag-table"+param).remove();
+        value = '';
+        $table.bootstrapTable('updateCell', {
+            index: $table.bootstrapTable('getSelections')[i].id - 1,
+            field: 'tags',
+            value: value,
+        })
+    }
 }
 
 /* Ajout de tags aux lignes sélectionnées dans la colonne "Tags" */
-function addTagInTable(param) {
+function addTagInTable(idTag, valTag, colorTag) {
+
+    var newTagTable = '<div class="tag-table'+ idTag +' p-1">'
+        + '<a onclick="removeTagSingle(' + idTag + ')" class="dropdown-item badge badge' + idTag + ' m-0" style="background-color: ' + colorTag + '; color: white;">'
+        + valTag + '</a></div>';
 
     for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++){
         $table.bootstrapTable('updateCell', {
             index: $table.bootstrapTable('getSelections')[i].id - 1,
             field: 'tags',
-            value: $(".tag"+param).html(),
+            value: newTagTable,
         });
     }
 
