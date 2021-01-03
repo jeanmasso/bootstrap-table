@@ -302,15 +302,13 @@ function removeTag(param) {
 
 /* Fonction de suppression des tags uniquement sur la table */
 function removeTagSingle(param) {
-    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++) {
-        var value = $(".tag-table"+param).remove();
-        value = '';
+    if ($table.bootstrapTable('getSelections') == true) {
         $table.bootstrapTable('updateCell', {
-            index: $table.bootstrapTable('getSelections')[i].id - 1,
+            index: $table.bootstrapTable('getSelections'),
             field: 'tags',
-            value: value,
+            value: $(".tag-table"+param).remove(),
         })
-    }
+    } else {return false};
 }
 
 /* Ajout de tags aux lignes sélectionnées dans la colonne "Tags" */
