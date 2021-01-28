@@ -8,4 +8,41 @@
 .action .btn {
   margin: 0 2px; }
 
+.dropdown-menu-tags {
+  max-width: 20rem; }
+
+.form-inline-tags {
+  padding: 0.5rem 1rem; }
+
+.badge {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem; }
+
+.create-tag:hover {
+  background-color: #eee;
+  cursor: pointer; }
+
+/* =========== SEARCHBAR =========== */
+.searchbar {
+  position: relative; }
+
+.search-icon {
+  position: absolute;
+  top: 8px;
+  left: 18px; }
+
+.search-box {
+  border: 1px solid darkgrey;
+  border-top: 0;
+  margin-top: -2px;
+  padding-top: 10px; }
+  .search-box ul {
+    list-style: none;
+    padding-left: 4%;
+    padding-bottom: 10px;
+    margin: 0; }
+  .search-box li {
+    padding: 4px 0; }
+
 /*# sourceMappingURL=style.css.map */

@@ -28,15 +28,17 @@ $(document).ready(function () {
             align: 'center',
             checkbox: true,
             printIgnore: true
-        }, {
-            field: 'id',
-            title: 'Identifiant',
-            titleTooltip: 'Colonne des identifiants des employés',
-            width: '50',
-            align: 'center',
-            sortable: true,
-            formatter: 'fieldFormatter',
-        }, {
+        },
+        //     {
+        //     field: 'id',
+        //     title: 'Identifiant',
+        //     titleTooltip: 'Colonne des identifiants des employés',
+        //     width: '50',
+        //     align: 'center',
+        //     sortable: true,
+        //     formatter: 'fieldFormatter',
+        // },
+            {
             field: 'employee_name',
             title: 'Name',
             titleTooltip: 'Colonne des noms des employés',
@@ -97,13 +99,13 @@ $(document).ready(function () {
 // Récupération des données de l'API chargée à l'intérieur de la table
 function getEmployee() {
 
-    $.get(
-        $API + '/employees',
-        function (data) {
-            $table.bootstrapTable('load', data.data);
-        },
-        'json'
-    );
+    // $.get(
+    //     $API + '/employees',
+    //     function (data) {
+    //         $table.bootstrapTable('load', data.data);
+    //     },
+    //     'json'
+    // );
 
 }
 
@@ -127,12 +129,6 @@ function actionFormatter(value, row, index) {
 
 }
 
-// Fonction permettant l'affichage des tags dans la colonne "Tags" pour chaque ligne d'un employé
-function tagsFormatter(value, row, index) {
-    var tags = '<div class="content-tags">'+ (((value != 0) && (value != null)) ? value : '')  +'</div>';
-    return tags;
-}
-
 // Création des boutons de la barre d'outils
 function buttons () {
     return {
@@ -140,49 +136,11 @@ function buttons () {
             icon: 'fa-plus',
             attributes: {
                 title: 'Créer un nouvel employé',
-                'data-toggle': 'modal',
-                'data-target': '#createEmployee'
+                onclick: 'addRow()',
             }
         }
     }
 }
-
-// Création d'un employé
-$('#btn-create').click(function () {
-    $name = $('#crt-employee-name').val();
-    $salary = $('#crt-employee-salary').val();
-    $age = $('#crt-employee-age').val();
-    $image = $('#crt-profile-image').val();
-    $.post(
-        $API + '/create',
-        {
-            employee_name: $name,
-            employee_salary: $salary,
-            employee_age: $age,
-            profile_image: $image
-        },
-        function (data) {
-            $data = data.data;
-            $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
-            alert(data.message + $newEmployee);
-            // Insertion de la ligne de l'employé dans la table
-            $table.bootstrapTable('insertRow',
-                {
-                    index: $data.id,
-                    row: {
-                        id: $data.id,
-                        employee_name: $data.employee_name,
-                        employee_salary: $data.employee_salary,
-                        employee_age: $data.employee_age,
-                        profile_image: $data.profile_image
-                    }
-                }
-            );
-
-        }, 'json'
-    );
-
-})
 
 // Suppression d'un employé
 function removeEmployee(idEmployee) {
@@ -257,6 +215,80 @@ function getDetailEmployee(idEmployee) {
 
 }
 
+/* // GESTION DE L'AJOUT D'UNE LIGNE AU TABLEAU //  */
+
+// Création d'un employé et d'une ligne du tableau
+// $('#btn-create').click(function () {
+//     $name = $('#crt-employee-name').val();
+//     $salary = $('#crt-employee-salary').val();
+//     $age = $('#crt-employee-age').val();
+//     $image = $('#crt-profile-image').val();
+//
+//     $.post(
+//         $API + '/create',
+//         {
+//             employee_name: $name,
+//             employee_salary: $salary,
+//             employee_age: $age,
+//             profile_image: $image
+//         },
+//         function (data) {
+//             $data = data.data;
+//             $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
+//             alert(data.message + $newEmployee);
+//             // Insertion de la ligne de l'employé dans la table
+//             $table.bootstrapTable('insertRow',
+//                 {
+//                     index: $data.id,
+//                     row: {
+//                         id: $data.id,
+//                         employee_name: $data.employee_name,
+//                         employee_salary: $data.employee_salary,
+//                         employee_age: $data.employee_age,
+//                         profile_image: $data.profile_image
+//                     }
+//                 }
+//             );
+//
+//         }, 'json'
+//     );
+//
+// })
+
+function addRow() {
+    var name, salary, age, image;
+    $('#createEmployee').modal('show');
+    $table.bootstrapTable('insertRow', {
+        index: 0,
+        row: {
+            employee_name: `<span class="text-center" id="newEmployeeName"></span>`,
+            employee_salary: `<span class="text-center" id="newEmployeeSalary"></span>`,
+            employee_age: `<span class="text-center" id="newEmployeeAge"></span>`,
+            profile_image: `<span class="text-center" id="newEmployeeImage"></span>`
+        }
+    })
+
+    $('#btn-create').click(function () {
+        name = $('#crt-employee-name').val();
+        salary = $('#crt-employee-salary').val();
+        age = $('#crt-employee-age').val();
+        image = $('#crt-profile-image').val();
+        $("#newEmployeeName").html(name);
+        $("#newEmployeeSalary").html(salary);
+        $("#newEmployeeAge").html(age);
+        $("#newEmployeeImage").html(image);
+    })
+
+}
+
+/* // GESTION DES TAGS //  */
+
+// Fonction permettant l'affichage des tags dans la colonne "Tags" pour chaque ligne d'un employé
+function tagsFormatter(value, row, index) {
+    var tags = '<div class="content-tags">'+ (((value != 0) && (value != null)) ? value : '')  +'</div>';
+    return tags;
+}
+
 /* Barre de Recherche des tags */
 function searchTag() {
     var searchbar, filter, tagList, div, a, i, txtValue;
@@ -328,5 +360,62 @@ function addTagInTable(idTag, valTag, colorTag) {
 
 }
 
+/* ============================ SEARCHBAR ============================================== */
+
+let suggestions = [
+    'ABJHKNJSKN',
+    'sajsklas',
+    'AKJS',
+    'SMLSKklspo'
+]
+
+    // getting all required elements
+    const searchWrapper = document.querySelector(".search-input");
+    const inputBox = searchWrapper.querySelector("input");
+    const suggBox = searchWrapper.querySelector(".autocom-box");
+    const icon = searchWrapper.querySelector(".icon");
+
+// if user press any key and release
+    inputBox.onkeyup = (e)=>{
+        let userData = e.target.value; //user enetered data
+        let emptyArray = [];
+        if(!userData || !inputBox.onfocus){
+            searchWrapper.classList.remove("active"); //hide autocomplete box
+
+        }else{
+            emptyArray = suggestions.filter(data =>{
+                //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
+                return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
+            });
+            emptyArray = emptyArray.map((data)=>{
+                // passing return data inside li tag
+                return data = '<li>'+ data +'</li>';
+            });
+            searchWrapper.classList.add("active"); //show autocomplete box
+            showSuggestions(emptyArray);
+            let allList = suggBox.querySelectorAll("li");
+            for (let i = 0; i < allList.length; i++) {
+                //adding onclick attribute in all li tag
+                allList[i].setAttribute("onclick", "select(this)");
+            }
+        }
+    }
+
+function select(element){
+    let selectData = element.textContent;
+    inputBox.value = selectData;
+    searchWrapper.classList.remove("active");
+}
+
+    function showSuggestions(list){
+        let listData;
+        if(!list.length){
+            userValue = inputBox.value;
+            listData = '<li>'+ userValue +'</li>';
+        }else{
+            listData = list.join('');
+        }
+        suggBox.innerHTML = listData;
+    }
 
 

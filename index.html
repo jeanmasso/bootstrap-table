@@ -44,6 +44,19 @@
 
   </div>
 
+  <!-- =========== SEARCHBAR ============ -->
+  <form class="my-5">
+    <div class="wrapper">
+      <div class="search-input">
+        <input class="form-control" type="text" placeholder="Type to search..">
+        <div class="autocom-box">
+          <!-- here list are inserted from javascript -->
+        </div>
+        <div class="icon"><i class="fas fa-search"></i></div>
+      </div>
+    </div>
+  </form>
+
   <!-- Modal de création de Tags -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
        aria-hidden="true">
@@ -84,45 +97,6 @@
   <!-- Table d'affichage de la liste des employés -->
   <table id="table"></table>
 
-  <!-- Modal de création d'un employé -->
-  <div class="modal fade" id="createEmployee" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Création d'un employé</h5>
-          <button type="button" class="btn btn-register btn-primary" id="btn-create">Créer <i class="fas fa-check"></i>
-          </button>
-          <button type="button" class="btn btn-cancel btn-warning" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-row">
-              <div class="form-group col-12">
-                <label for="crt-employee-name">Name</label>
-                <input type="text" class="form-control" id="crt-employee-name" placeholder="Name">
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-4">
-                <label for="crt-employee-salary">Salary</label>
-                <input type="text" class="form-control" id="crt-employee-salary" placeholder="Salary">
-              </div>
-              <div class="form-group col-4">
-                <label for="crt-employee-age">Age</label>
-                <input type="text" class="form-control" id="crt-employee-age" placeholder="Age">
-              </div>
-              <div class="form-group col-4">
-                <label for="crt-profile-image">Profile image</label>
-                <input type="text" class="form-control" id="crt-profile-image" placeholder="Profile image">
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Modal d'affichage de détails de l'employé -->
   <div class="modal fade" id="detailsEmployee" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -160,6 +134,45 @@
               <div class="form-group col-6">
                 <label for="profile-image">Profile image</label>
                 <input type="text" class="form-control" id="profile-image" placeholder="Profile image">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de création d'un employé -->
+  <div class="modal fade" id="createEmployee" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Création d'un employé</h5>
+          <button type="button" class="btn btn-register btn-primary" id="btn-create">Créer <i class="fas fa-check"></i>
+          </button>
+          <button type="button" class="btn btn-cancel btn-warning" data-dismiss="modal" aria-label="Close">Fermer <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="crt-employee-name">Name</label>
+                <input type="text" class="form-control" id="crt-employee-name" placeholder="Name">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-4">
+                <label for="crt-employee-salary">Salary</label>
+                <input type="text" class="form-control" id="crt-employee-salary" placeholder="Salary">
+              </div>
+              <div class="form-group col-4">
+                <label for="crt-employee-age">Age</label>
+                <input type="text" class="form-control" id="crt-employee-age" placeholder="Age">
+              </div>
+              <div class="form-group col-4">
+                <label for="crt-profile-image">Profile image</label>
+                <input type="text" class="form-control" id="crt-profile-image" placeholder="Profile image">
               </div>
             </div>
           </form>
