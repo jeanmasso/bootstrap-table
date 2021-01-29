@@ -29,68 +29,68 @@ $(document).ready(function () {
             checkbox: true,
             printIgnore: true
         },
-        //     {
-        //     field: 'id',
-        //     title: 'Identifiant',
-        //     titleTooltip: 'Colonne des identifiants des employés',
-        //     width: '50',
-        //     align: 'center',
-        //     sortable: true,
-        //     formatter: 'fieldFormatter',
-        // },
+            //     {
+            //     field: 'id',
+            //     title: 'Identifiant',
+            //     titleTooltip: 'Colonne des identifiants des employés',
+            //     width: '50',
+            //     align: 'center',
+            //     sortable: true,
+            //     formatter: 'fieldFormatter',
+            // },
             {
-            field: 'employee_name',
-            title: 'Name',
-            titleTooltip: 'Colonne des noms des employés',
-            // width: '50',
-            align: 'center',
-            sortable: true,
-            filterControl: 'input',
-            formatter: 'fieldFormatter'
-        }, {
-            field: 'employee_salary',
-            title: 'Salary',
-            titleTooltip: 'Colonne des salaires des employés',
-            // width: '50',
-            align: 'center',
-            filterControl: 'input',
-            sortable: true,
-            formatter: 'fieldFormatter',
-        }, {
-            field: 'employee_age',
-            title: 'Age',
-            titleTooltip: "Colonne de l'age des employés",
-            width: '50',
-            align: 'center',
-            filterControl: 'input',
-            sortable: true,
-            formatter: 'fieldFormatter',
-        }, {
-            field: 'profile_image',
-            title: 'Profile image',
-            titleTooltip: 'Colonne des images du profile des employés',
-            // width: '50',
-            align: 'center',
-            sortable: true,
-            formatter: 'fieldFormatter',
-        }, {
-            field: 'tags',
-            title: 'Tags',
-            titleTooltip: 'Colonne des tags associés aux employés',
-            // width: '50',
-            align: 'center',
-            sortable: true,
-            formatter: "tagsFormatter",
-        }, {
-            field: 'action',
-            title: 'Action',
-            titleTooltip: 'Colonne des différents actions possibles',
-            // width: '50',
-            align: 'center',
-            printIgnore: true,
-            sortable: true,
-            formatter: 'actionFormatter'
-        }]
+                field: 'employee_name',
+                title: 'Name',
+                titleTooltip: 'Colonne des noms des employés',
+                // width: '50',
+                align: 'center',
+                sortable: true,
+                filterControl: 'input',
+                formatter: 'fieldFormatter'
+            }, {
+                field: 'employee_salary',
+                title: 'Salary',
+                titleTooltip: 'Colonne des salaires des employés',
+                // width: '50',
+                align: 'center',
+                filterControl: 'input',
+                sortable: true,
+                formatter: 'fieldFormatter',
+            }, {
+                field: 'employee_age',
+                title: 'Age',
+                titleTooltip: "Colonne de l'age des employés",
+                width: '50',
+                align: 'center',
+                filterControl: 'input',
+                sortable: true,
+                formatter: 'fieldFormatter',
+            }, {
+                field: 'profile_image',
+                title: 'Profile image',
+                titleTooltip: 'Colonne des images du profile des employés',
+                // width: '50',
+                align: 'center',
+                sortable: true,
+                formatter: 'fieldFormatter',
+            }, {
+                field: 'tags',
+                title: 'Tags',
+                titleTooltip: 'Colonne des tags associés aux employés',
+                // width: '50',
+                align: 'center',
+                sortable: true,
+                formatter: "tagsFormatter",
+            }, {
+                field: 'action',
+                title: 'Action',
+                titleTooltip: 'Colonne des différents actions possibles',
+                // width: '50',
+                align: 'center',
+                printIgnore: true,
+                sortable: true,
+                formatter: 'actionFormatter'
+            }]
     });
 
     getEmployee();
@@ -130,7 +130,7 @@ function actionFormatter(value, row, index) {
 }
 
 // Création des boutons de la barre d'outils
-function buttons () {
+function buttons() {
     return {
         btnAdd: {
             icon: 'fa-plus',
@@ -285,7 +285,7 @@ function addRow() {
 
 // Fonction permettant l'affichage des tags dans la colonne "Tags" pour chaque ligne d'un employé
 function tagsFormatter(value, row, index) {
-    var tags = '<div class="content-tags">'+ (((value != 0) && (value != null)) ? value : '')  +'</div>';
+    var tags = '<div class="content-tags">' + (((value != 0) && (value != null)) ? value : '') + '</div>';
     return tags;
 }
 
@@ -308,10 +308,10 @@ function searchTag() {
 }
 
 /* Création des tags */
-$("#createTag").click(function() {
+$("#createTag").click(function () {
     var tagColor = $("#newTagColor").val();
     var tagValue = $("#newTag").val();
-    var newTag = '<div class="tag'+j+' p-1" onclick="addTagInTable(' + j + ',\''+ tagValue +'\',\''+ tagColor +'\')">'
+    var newTag = '<div class="tag' + j + ' p-1" onclick="addTagInTable(' + j + ',\'' + tagValue + '\',\'' + tagColor + '\')">'
         + '<a href="#" class="dropdown-item badge badge' + j + ' m-0" style="background-color: ' + tagColor + '; color: white;">'
         + tagValue + ' <i onclick="removeTag(' + j + ')" class="fas fa-times"></i>'
         + '</a></div>';
@@ -322,14 +322,15 @@ $("#createTag").click(function() {
         $("#modalTagList").append(newTag);
         $("#newTag").val("");
         j++;
-    };
+    }
+    ;
 
 })
 
 /* Fonction de suppression des tags de manière généralisé */
 function removeTag(param) {
-    $(".tag"+param).remove();
-    $(".tag-table"+param).remove();
+    $(".tag" + param).remove();
+    $(".tag-table" + param).remove();
 }
 
 /* Fonction de suppression des tags uniquement sur la table */
@@ -338,19 +339,22 @@ function removeTagSingle(param) {
         $table.bootstrapTable('updateCell', {
             index: $table.bootstrapTable('getSelections'),
             field: 'tags',
-            value: $(".tag-table"+param).remove(),
+            value: $(".tag-table" + param).remove(),
         })
-    } else {return false};
+    } else {
+        return false
+    }
+    ;
 }
 
 /* Ajout de tags aux lignes sélectionnées dans la colonne "Tags" */
 function addTagInTable(idTag, valTag, colorTag) {
 
-    var newTagTable = '<div class="tag-table'+ idTag +' p-1">'
+    var newTagTable = '<div class="tag-table' + idTag + ' p-1">'
         + '<a onclick="removeTagSingle(' + idTag + ')" class="dropdown-item badge badge' + idTag + ' m-0" style="background-color: ' + colorTag + '; color: white;">'
         + valTag + '</a></div>';
 
-    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++){
+    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++) {
         $table.bootstrapTable('updateCell', {
             index: $table.bootstrapTable('getSelections')[i].id - 1,
             field: 'tags',
@@ -361,61 +365,90 @@ function addTagInTable(idTag, valTag, colorTag) {
 }
 
 /* ============================ SEARCHBAR ============================================== */
-
-let suggestions = [
-    'ABJHKNJSKN',
-    'sajsklas',
-    'AKJS',
-    'SMLSKklspo'
-]
-
-    // getting all required elements
-    const searchWrapper = document.querySelector(".search-input");
-    const inputBox = searchWrapper.querySelector("input");
-    const suggBox = searchWrapper.querySelector(".autocom-box");
-    const icon = searchWrapper.querySelector(".icon");
-
-// if user press any key and release
-    inputBox.onkeyup = (e)=>{
-        let userData = e.target.value; //user enetered data
-        let emptyArray = [];
-        if(!userData || !inputBox.onfocus){
-            searchWrapper.classList.remove("active"); //hide autocomplete box
-
-        }else{
-            emptyArray = suggestions.filter(data =>{
-                //filtering array value and user characters to lowercase and return only those words which are start with user enetered chars
-                return data.toLocaleLowerCase().startsWith(userData.toLocaleLowerCase());
-            });
-            emptyArray = emptyArray.map((data)=>{
-                // passing return data inside li tag
-                return data = '<li>'+ data +'</li>';
-            });
-            searchWrapper.classList.add("active"); //show autocomplete box
-            showSuggestions(emptyArray);
-            let allList = suggBox.querySelectorAll("li");
-            for (let i = 0; i < allList.length; i++) {
-                //adding onclick attribute in all li tag
-                allList[i].setAttribute("onclick", "select(this)");
-            }
-        }
+let suggestions;
+$.ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        suggestions = data;
+        suggestions.slice(10);
     }
+})
 
-function select(element){
-    let selectData = element.textContent;
-    inputBox.value = selectData;
-    searchWrapper.classList.remove("active");
+// getting all required elements
+const searchWrapper = document.querySelector(".search-input");
+const inputBox = searchWrapper.querySelector("input");
+const suggBox = searchWrapper.querySelector(".autocom-box");
+const icon = searchWrapper.querySelector(".search-icon");
+
+if (!$(".searchbar").focusin) {
+    $(".search-icon").css("left","18px");
+} else {
+    $(".search-icon").css("right","18px");
 }
 
-    function showSuggestions(list){
-        let listData;
-        if(!list.length){
-            userValue = inputBox.value;
-            listData = '<li>'+ userValue +'</li>';
-        }else{
-            listData = list.join('');
+
+// if user press any key and release
+inputBox.onkeyup = (e) => {
+    let userData = e.target.value; //user enetered data
+    let emptyArray = [];
+    if (!userData) {
+        searchWrapper.classList.remove("active"); //hide autocomplete box
+        suggBox.setAttribute('hidden', true)
+    } else {
+        suggBox.removeAttribute('hidden')
+        var output = suggestions.filter(suggestions => suggestions.title);
+        for (var i = 0; i < output.length; i++) {
+            let data = output[i].title;
+            emptyArray.push(data);
+        };
+        emptyArray = emptyArray.map((data) => {
+            // passing return data inside li tag
+            let stateData = data.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
+            console.log(stateData);
+            if (stateData) {
+                return '<li class="list-group-item d-flex"><i class="fas fa-plus-circle pr-2 my-auto"></i><p class="m-0">' + data + '</p></li>';
+            } else {
+                return "";
+            }
+
+        });
+        searchWrapper.classList.add("active"); //show autocomplete box
+        showSuggestions(emptyArray);
+        let allList = suggBox.querySelectorAll("li");
+        for (let i = 0; i < allList.length; i++) {
+            //adding onclick attribute in all li tag
+            allList[i].setAttribute("onclick", "select(this)");
         }
-        suggBox.innerHTML = listData;
     }
+}
+
+function select(element) {
+    let selectData = element.textContent;
+    inputBox.value = selectData;
+    $table.bootstrapTable('insertRow', {
+        index: 1,
+        row: {
+            employee_name: selectData,
+            employee_salary: ``,
+            employee_age: `<input class="form-control" id="quantity" value="1"/>`,
+            profile_image: ``
+        }
+    })
+    searchWrapper.classList.remove("active");
+    suggBox.setAttribute('hidden', true)
+}
+
+function showSuggestions(list) {
+    let listData;
+    if (!list.length) {
+        userValue = inputBox.value;
+        listData = '<li>' + userValue + '</li>';
+    } else {
+        listData = list.join('');
+    }
+    suggBox.innerHTML = listData;
+}
 
 
