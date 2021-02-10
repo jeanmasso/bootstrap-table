@@ -365,16 +365,18 @@ function addTagInTable(idTag, valTag, colorTag) {
 }
 
 /* ============================ SEARCHBAR ============================================== */
-let suggestions;
-$.ajax({
-    url: 'https://jsonplaceholder.typicode.com/posts',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
-        suggestions = data;
-        suggestions.slice(10);
+// Fonction permettant de reduire le nombre de requete après un delai
+function debounce(callback, delay){
+    var timer;
+    return function(){
+        var args = arguments;
+        var context = this;
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+            callback.apply(context, args);
+        }, delay)
     }
-})
+}
 
 // getting all required elements
 const searchWrapper = document.querySelector(".search-input");
@@ -389,30 +391,44 @@ if (!$(".searchbar").focusin) {
 }
 
 
-// if user press any key and release
-inputBox.onkeyup = (e) => {
-    let userData = e.target.value; //user enetered data
+// Rêquette pour l'accès aux données des différentes suggestions
+let suggestions;
+$.ajax({
+    url: 'https://jsonplaceholder.typicode.com/posts',
+    type: 'GET',
+    dataType: 'json',
+    success: function (data) {
+        suggestions = data;
+        // suggestions.slice(10);
+    }
+})
+
+// Si il y a une saisie dans le champs
+inputBox.addEventListener('keyup', debounce(function (e) {
+
+    let userData = e.target.value; // userData prend la valeur du champs de saisie
     let emptyArray = [];
+
+    // Si le champs de saisie est vide
     if (!userData) {
-        searchWrapper.classList.remove("active"); //hide autocomplete box
-        suggBox.setAttribute('hidden', true)
+        suggBox.setAttribute('hidden', true) // Ne pas afficher la liste déroulante
     } else {
-        suggBox.removeAttribute('hidden')
-        var output = suggestions.filter(suggestions => suggestions.title);
-        for (var i = 0; i < output.length; i++) {
-            let data = output[i].title;
-            emptyArray.push(data);
+        suggBox.removeAttribute('hidden') // Afficher la liste déroulante en supprimant l'attribut "hidden"
+        let output = suggestions.filter(suggestions => suggestions.title); // Création d'un tableau seulement avec les titres
+        for (let i = 0; i < output.length; i++) { // On parcours tout le tableau
+            let data = output[i].title; // On affecte a data un titre à la fois
+            emptyArray.push(data); // On pousse un titre à la fois dans le tableau emptyArray
         };
+        // On parcours le tableau afin que chaque élément soit dans un li de la liste déroulante
         emptyArray = emptyArray.map((data) => {
-            // passing return data inside li tag
-            let stateData = data.toLocaleLowerCase().includes(userData.toLocaleLowerCase());
-            console.log(stateData);
+            let stateData = data.toLocaleLowerCase().includes(userData.toLocaleLowerCase()); // On check si ce qui al valeur sai, est inclut
             if (stateData) {
+                var regExp = userData;
+                var data = data.replace(regExp, '<span style="color: blue">'+userData+'</span>');
                 return '<li class="list-group-item d-flex"><i class="fas fa-plus-circle pr-2 my-auto"></i><p class="m-0">' + data + '</p></li>';
             } else {
                 return "";
             }
-
         });
         searchWrapper.classList.add("active"); //show autocomplete box
         showSuggestions(emptyArray);
@@ -422,7 +438,8 @@ inputBox.onkeyup = (e) => {
             allList[i].setAttribute("onclick", "select(this)");
         }
     }
-}
+
+},800));
 
 function select(element) {
     let selectData = element.textContent;
