@@ -26,9 +26,11 @@
 /* =========== SEARCHBAR =========== */
 .search-input {
   position: relative; }
-  .search-input .search-icon {
+  .search-input .search-icon, .search-input .search-reset {
     position: absolute;
     top: 8px;
     right: 18px; }
+  .search-input .search-reset {
+    display: none; }
 
 /*# sourceMappingURL=style.css.map */

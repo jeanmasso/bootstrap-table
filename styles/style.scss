@@ -40,6 +40,11 @@ $input-width: 90%;
     right: 18px;
   }
 
+  .search-reset{
+    @extend .search-icon;
+    display: none;
+  }
+
 }
 
 

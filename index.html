@@ -48,11 +48,12 @@
   <form class="my-5">
     <div class="wrapper">
       <div class="search-input">
-        <input class="form-control searchbar" type="text" placeholder="Rechercher un produit / article">
+        <input class="form-control searchbar" type="text" placeholder="Rechercher un produit / article"> <!-- onkeyup="keyTouch()" -->
         <div class="autocom-box list-group" hidden>
           <!-- here list are inserted from javascript -->
         </div>
-        <div class="search-icon"><i class="fas fa-search"></i></div>
+        <button class="search-icon"><i class="fas fa-search"></i></button>
+      <button class="search-reset"><i class="fas fa-times"></i></button> <!-- onclick="resetSearch()" -->
       </div>
     </div>
   </form>

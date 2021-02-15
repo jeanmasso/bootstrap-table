@@ -365,41 +365,22 @@ function addTagInTable(idTag, valTag, colorTag) {
 }
 
 /* ============================ SEARCHBAR ============================================== */
-// Fonction permettant de reduire le nombre de requete après un delai
-function debounce(callback, delay){
-    var timer;
-    return function(){
-        var args = arguments;
-        var context = this;
-        clearTimeout(timer);
-        timer = setTimeout(function(){
-            callback.apply(context, args);
-        }, delay)
-    }
-}
 
 // getting all required elements
 const searchWrapper = document.querySelector(".search-input");
 const inputBox = searchWrapper.querySelector("input");
 const suggBox = searchWrapper.querySelector(".autocom-box");
-const icon = searchWrapper.querySelector(".search-icon");
-
-if (!$(".searchbar").focusin) {
-    $(".search-icon").css("left","18px");
-} else {
-    $(".search-icon").css("right","18px");
-}
-
+const iconSearch = searchWrapper.querySelector(".search-icon");
+const iconReset = searchWrapper.querySelector(".search-reset");
+let suggestions;
 
 // Rêquette pour l'accès aux données des différentes suggestions
-let suggestions;
 $.ajax({
     url: 'https://jsonplaceholder.typicode.com/posts',
     type: 'GET',
     dataType: 'json',
     success: function (data) {
         suggestions = data;
-        // suggestions.slice(10);
     }
 })
 
@@ -412,7 +393,16 @@ inputBox.addEventListener('keyup', debounce(function (e) {
     // Si le champs de saisie est vide
     if (!userData) {
         suggBox.setAttribute('hidden', true) // Ne pas afficher la liste déroulante
+        inputBox.style.padding = "0 0 0 0.8rem";
+        iconSearch.style.right = "1rem";
+        iconSearch.style.left = "initial";
+        iconReset.style.display = "none";
     } else {
+        iconSearch.style.left = "15px";
+        iconSearch.style.right = "initial";
+        iconReset.style.display = "block";
+        inputBox.style.padding = "0 0 0 45px";
+        // inputBox.style.padding = "0 0 0 45px";
         suggBox.removeAttribute('hidden') // Afficher la liste déroulante en supprimant l'attribut "hidden"
         let output = suggestions.filter(suggestions => suggestions.title); // Création d'un tableau seulement avec les titres
         for (let i = 0; i < output.length; i++) { // On parcours tout le tableau
@@ -441,6 +431,21 @@ inputBox.addEventListener('keyup', debounce(function (e) {
 
 },800));
 
+
+// Fonction permettant de reduire le nombre de requete après un delai
+function debounce(callback, delay){
+    var timer;
+    return function(){
+        var args = arguments;
+        var context = this;
+        clearTimeout(timer);
+        timer = setTimeout(function(){
+            callback.apply(context, args);
+        }, delay)
+    }
+}
+
+// Fonction permettant de sélectionner un élement de la liste
 function select(element) {
     let selectData = element.textContent;
     inputBox.value = selectData;
@@ -457,15 +462,35 @@ function select(element) {
     suggBox.setAttribute('hidden', true)
 }
 
+// Fonction permettant de gérer l'affiche des suggestions
 function showSuggestions(list) {
     let listData;
     if (!list.length) {
-        userValue = inputBox.value;
+        let userValue = inputBox.value;
         listData = '<li>' + userValue + '</li>';
     } else {
         listData = list.join('');
     }
     suggBox.innerHTML = listData;
+}
+
+// function keyTouch() {
+//     if (!inputBox.value.length > 0) {
+//         inputBox.style.padding = "0 0 0 0.8rem";
+//         iconSearch.style.right = "1rem";
+//         iconSearch.style.left = "initial";
+//         iconReset.style.display = "none";
+//     } else {
+//         iconSearch.style.left = "15px";
+//         iconSearch.style.right = "initial";
+//         iconReset.style.display = "block";
+//         inputBox.style.padding = "0 0 0 45px";
+//     }
+// }
+
+function resetSearch() {
+    inputBox.value = "";
+    console.log(inputBox.value.length);
 }
 
 
