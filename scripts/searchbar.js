@@ -4,6 +4,10 @@ const autocompBlock = searchBlock.querySelector(".autocomp-block");
 const iconSearch = searchBlock.querySelector(".search-icon");
 const iconReset = searchBlock.querySelector(".search-reset");
 
+if(inputBox.value) {
+    inputBox.focus();
+};
+
 inputBox.addEventListener('keyup', debounce(search, 800));
 
 function search(e) {
@@ -23,9 +27,7 @@ function search(e) {
 
         if (!userData) { // Si le champs de saisie est vide
             autocompBlock.setAttribute('hidden', true) // Ne pas afficher la liste déroulante
-            iconReset.style.display = "none";
         } else {
-            iconReset.style.display = "block";
             autocompBlock.removeAttribute('hidden') // Afficher la liste déroulante en supprimant l'attribut "hidden"
             for (let i = 0; i < suggestions.length; i++) { // On parcours tout le tableau
                 let data = suggestions[i].title; // On affecte a data un titre à la fois
@@ -93,6 +95,6 @@ function debounce(callback, delay){
 }
 
 function resetSearch() {
-    // $("#formSearchbar")[0].reset();
     $(".searchbar").val("");
+    return iconReset.style.display = "none";
 }

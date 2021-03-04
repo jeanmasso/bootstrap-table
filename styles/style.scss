@@ -39,6 +39,10 @@ $input-width: 90%;
   right: 8px;
   top: 8px;
   display: none;
+
+  &:active {
+    display: block !important;
+  }
 }
 
 .searchbar:focus {
@@ -51,7 +55,7 @@ $input-width: 90%;
    }
 
   & + .search-icon + .search-reset {
-    display: block;
+    display: block !important;
   }
 
 }

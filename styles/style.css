@@ -32,6 +32,8 @@
   right: 8px;
   top: 8px;
   display: none; }
+  .search-reset:active {
+    display: block !important; }
 
 .searchbar:focus {
   padding: .375rem 30px; }
@@ -39,6 +41,6 @@
     left: 10px;
     right: inherit; }
   .searchbar:focus + .search-icon + .search-reset {
-    display: block; }
+    display: block !important; }
 
 /*# sourceMappingURL=style.css.map */
