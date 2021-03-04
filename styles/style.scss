@@ -29,23 +29,29 @@ $input-width: 90%;
   cursor: pointer;
 }
 
-/* =========== SEARCHBAR =========== */
+/* ======== SEARCHBAR ======== */
+.search-icon {
+  top: 8px;
+  right: 8px;
+}
 
-.search-input{
-  position: relative;
+.search-reset {
+  right: 8px;
+  top: 8px;
+  display: none;
+}
 
-  .search-icon {
-    position: absolute;
-    top: 8px;
-    right: 18px;
-  }
+.searchbar:focus {
 
-  .search-reset{
-    @extend .search-icon;
-    display: none;
+    padding: .375rem 30px;
+
+   & + .search-icon {
+     left: 10px;
+     right: inherit;
+   }
+
+  & + .search-icon + .search-reset {
+    display: block;
   }
 
 }
-
-
-

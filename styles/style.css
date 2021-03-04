@@ -23,14 +23,22 @@
   background-color: #eee;
   cursor: pointer; }
 
-/* =========== SEARCHBAR =========== */
-.search-input {
-  position: relative; }
-  .search-input .search-icon, .search-input .search-reset {
-    position: absolute;
-    top: 8px;
-    right: 18px; }
-  .search-input .search-reset {
-    display: none; }
+/* ======== SEARCHBAR ======== */
+.search-icon {
+  top: 8px;
+  right: 8px; }
+
+.search-reset {
+  right: 8px;
+  top: 8px;
+  display: none; }
+
+.searchbar:focus {
+  padding: .375rem 30px; }
+  .searchbar:focus + .search-icon {
+    left: 10px;
+    right: inherit; }
+  .searchbar:focus + .search-icon + .search-reset {
+    display: block; }
 
 /*# sourceMappingURL=style.css.map */

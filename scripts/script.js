@@ -1,4 +1,3 @@
-var j = 0;
 var $table = $('#table');
 var $API = 'http://dummy.restapiexample.com/api/v1'; // URL de l'API
 
@@ -99,13 +98,13 @@ $(document).ready(function () {
 // Récupération des données de l'API chargée à l'intérieur de la table
 function getEmployee() {
 
-    // $.get(
-    //     $API + '/employees',
-    //     function (data) {
-    //         $table.bootstrapTable('load', data.data);
-    //     },
-    //     'json'
-    // );
+    $.get(
+        $API + '/employees',
+        function (data) {
+            $table.bootstrapTable('load', data.data);
+        },
+        'json'
+    );
 
 }
 
@@ -218,42 +217,42 @@ function getDetailEmployee(idEmployee) {
 /* // GESTION DE L'AJOUT D'UNE LIGNE AU TABLEAU //  */
 
 // Création d'un employé et d'une ligne du tableau
-// $('#btn-create').click(function () {
-//     $name = $('#crt-employee-name').val();
-//     $salary = $('#crt-employee-salary').val();
-//     $age = $('#crt-employee-age').val();
-//     $image = $('#crt-profile-image').val();
-//
-//     $.post(
-//         $API + '/create',
-//         {
-//             employee_name: $name,
-//             employee_salary: $salary,
-//             employee_age: $age,
-//             profile_image: $image
-//         },
-//         function (data) {
-//             $data = data.data;
-//             $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
-//             alert(data.message + $newEmployee);
-//             // Insertion de la ligne de l'employé dans la table
-//             $table.bootstrapTable('insertRow',
-//                 {
-//                     index: $data.id,
-//                     row: {
-//                         id: $data.id,
-//                         employee_name: $data.employee_name,
-//                         employee_salary: $data.employee_salary,
-//                         employee_age: $data.employee_age,
-//                         profile_image: $data.profile_image
-//                     }
-//                 }
-//             );
-//
-//         }, 'json'
-//     );
-//
-// })
+$('#btn-create').click(function () {
+    $name = $('#crt-employee-name').val();
+    $salary = $('#crt-employee-salary').val();
+    $age = $('#crt-employee-age').val();
+    $image = $('#crt-profile-image').val();
+
+    $.post(
+        $API + '/create',
+        {
+            employee_name: $name,
+            employee_salary: $salary,
+            employee_age: $age,
+            profile_image: $image
+        },
+        function (data) {
+            $data = data.data;
+            $newEmployee = '\nId: ' + $data.id + '\nName: ' + $data.employee_name + '\nSalary: ' + $data.employee_salary + '\nAge: ' + $data.employee_age + '\nProfile image: ' + $data.profile_image;
+            alert(data.message + $newEmployee);
+            // Insertion de la ligne de l'employé dans la table
+            $table.bootstrapTable('insertRow',
+                {
+                    index: $data.id,
+                    row: {
+                        id: $data.id,
+                        employee_name: $data.employee_name,
+                        employee_salary: $data.employee_salary,
+                        employee_age: $data.employee_age,
+                        profile_image: $data.profile_image
+                    }
+                }
+            );
+
+        }, 'json'
+    );
+
+})
 
 function addRow() {
     var name, salary, age, image;
@@ -278,219 +277,4 @@ function addRow() {
         $("#newEmployeeAge").html(age);
         $("#newEmployeeImage").html(image);
     })
-
 }
-
-/* // GESTION DES TAGS //  */
-
-// Fonction permettant l'affichage des tags dans la colonne "Tags" pour chaque ligne d'un employé
-function tagsFormatter(value, row, index) {
-    var tags = '<div class="content-tags">' + (((value != 0) && (value != null)) ? value : '') + '</div>';
-    return tags;
-}
-
-/* Barre de Recherche des tags */
-function searchTag() {
-    var searchbar, filter, tagList, div, a, i, txtValue;
-    searchbar = document.getElementById("searchbar");
-    filter = searchbar.value.toUpperCase();
-    tagList = document.getElementById("searchTagList");
-    div = tagList.getElementsByTagName("div");
-    for (i = 0; i < div.length; i++) {
-        a = div[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            div[i].style.display = "";
-        } else {
-            div[i].style.display = "none";
-        }
-    }
-}
-
-/* Création des tags */
-$("#createTag").click(function () {
-    var tagColor = $("#newTagColor").val();
-    var tagValue = $("#newTag").val();
-    var newTag = '<div class="tag' + j + ' p-1" onclick="addTagInTable(' + j + ',\'' + tagValue + '\',\'' + tagColor + '\')">'
-        + '<a href="#" class="dropdown-item badge badge' + j + ' m-0" style="background-color: ' + tagColor + '; color: white;">'
-        + tagValue + ' <i onclick="removeTag(' + j + ')" class="fas fa-times"></i>'
-        + '</a></div>';
-
-    if ($("#newTag").val() === "") return ''; else {
-        j = j;
-        $("#searchTagList").append(newTag);
-        $("#modalTagList").append(newTag);
-        $("#newTag").val("");
-        j++;
-    }
-    ;
-
-})
-
-/* Fonction de suppression des tags de manière généralisé */
-function removeTag(param) {
-    $(".tag" + param).remove();
-    $(".tag-table" + param).remove();
-}
-
-/* Fonction de suppression des tags uniquement sur la table */
-function removeTagSingle(param) {
-    if ($table.bootstrapTable('getSelections') == true) {
-        $table.bootstrapTable('updateCell', {
-            index: $table.bootstrapTable('getSelections'),
-            field: 'tags',
-            value: $(".tag-table" + param).remove(),
-        })
-    } else {
-        return false
-    }
-    ;
-}
-
-/* Ajout de tags aux lignes sélectionnées dans la colonne "Tags" */
-function addTagInTable(idTag, valTag, colorTag) {
-
-    var newTagTable = '<div class="tag-table' + idTag + ' p-1">'
-        + '<a onclick="removeTagSingle(' + idTag + ')" class="dropdown-item badge badge' + idTag + ' m-0" style="background-color: ' + colorTag + '; color: white;">'
-        + valTag + '</a></div>';
-
-    for (var i = 0; i < $table.bootstrapTable('getSelections').length; i++) {
-        $table.bootstrapTable('updateCell', {
-            index: $table.bootstrapTable('getSelections')[i].id - 1,
-            field: 'tags',
-            value: newTagTable,
-        });
-    }
-
-}
-
-/* ============================ SEARCHBAR ============================================== */
-
-// getting all required elements
-const searchWrapper = document.querySelector(".search-input");
-const inputBox = searchWrapper.querySelector("input");
-const suggBox = searchWrapper.querySelector(".autocom-box");
-const iconSearch = searchWrapper.querySelector(".search-icon");
-const iconReset = searchWrapper.querySelector(".search-reset");
-let suggestions;
-
-// Rêquette pour l'accès aux données des différentes suggestions
-$.ajax({
-    url: 'https://jsonplaceholder.typicode.com/posts',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
-        suggestions = data;
-    }
-})
-
-// Si il y a une saisie dans le champs
-inputBox.addEventListener('keyup', debounce(function (e) {
-
-    let userData = e.target.value; // userData prend la valeur du champs de saisie
-    let emptyArray = [];
-
-    // Si le champs de saisie est vide
-    if (!userData) {
-        suggBox.setAttribute('hidden', true) // Ne pas afficher la liste déroulante
-        inputBox.style.padding = "0 0 0 0.8rem";
-        iconSearch.style.right = "1rem";
-        iconSearch.style.left = "initial";
-        iconReset.style.display = "none";
-    } else {
-        iconSearch.style.left = "15px";
-        iconSearch.style.right = "initial";
-        iconReset.style.display = "block";
-        inputBox.style.padding = "0 0 0 45px";
-        // inputBox.style.padding = "0 0 0 45px";
-        suggBox.removeAttribute('hidden') // Afficher la liste déroulante en supprimant l'attribut "hidden"
-        let output = suggestions.filter(suggestions => suggestions.title); // Création d'un tableau seulement avec les titres
-        for (let i = 0; i < output.length; i++) { // On parcours tout le tableau
-            let data = output[i].title; // On affecte a data un titre à la fois
-            emptyArray.push(data); // On pousse un titre à la fois dans le tableau emptyArray
-        };
-        // On parcours le tableau afin que chaque élément soit dans un li de la liste déroulante
-        emptyArray = emptyArray.map((data) => {
-            let stateData = data.toLocaleLowerCase().includes(userData.toLocaleLowerCase()); // On check si ce qui al valeur sai, est inclut
-            if (stateData) {
-                var regExp = userData;
-                var data = data.replace(regExp, '<span style="color: blue">'+userData+'</span>');
-                return '<li class="list-group-item d-flex"><i class="fas fa-plus-circle pr-2 my-auto"></i><p class="m-0">' + data + '</p></li>';
-            } else {
-                return "";
-            }
-        });
-        searchWrapper.classList.add("active"); //show autocomplete box
-        showSuggestions(emptyArray);
-        let allList = suggBox.querySelectorAll("li");
-        for (let i = 0; i < allList.length; i++) {
-            //adding onclick attribute in all li tag
-            allList[i].setAttribute("onclick", "select(this)");
-        }
-    }
-
-},800));
-
-
-// Fonction permettant de reduire le nombre de requete après un delai
-function debounce(callback, delay){
-    var timer;
-    return function(){
-        var args = arguments;
-        var context = this;
-        clearTimeout(timer);
-        timer = setTimeout(function(){
-            callback.apply(context, args);
-        }, delay)
-    }
-}
-
-// Fonction permettant de sélectionner un élement de la liste
-function select(element) {
-    let selectData = element.textContent;
-    inputBox.value = selectData;
-    $table.bootstrapTable('insertRow', {
-        index: 1,
-        row: {
-            employee_name: selectData,
-            employee_salary: ``,
-            employee_age: `<input class="form-control" id="quantity" value="1"/>`,
-            profile_image: ``
-        }
-    })
-    searchWrapper.classList.remove("active");
-    suggBox.setAttribute('hidden', true)
-}
-
-// Fonction permettant de gérer l'affiche des suggestions
-function showSuggestions(list) {
-    let listData;
-    if (!list.length) {
-        let userValue = inputBox.value;
-        listData = '<li>' + userValue + '</li>';
-    } else {
-        listData = list.join('');
-    }
-    suggBox.innerHTML = listData;
-}
-
-// function keyTouch() {
-//     if (!inputBox.value.length > 0) {
-//         inputBox.style.padding = "0 0 0 0.8rem";
-//         iconSearch.style.right = "1rem";
-//         iconSearch.style.left = "initial";
-//         iconReset.style.display = "none";
-//     } else {
-//         iconSearch.style.left = "15px";
-//         iconSearch.style.right = "initial";
-//         iconReset.style.display = "block";
-//         inputBox.style.padding = "0 0 0 45px";
-//     }
-// }
-
-function resetSearch() {
-    inputBox.value = "";
-    console.log(inputBox.value.length);
-}
-
-

@@ -45,15 +45,15 @@
   </div>
 
   <!-- =========== SEARCHBAR ============ -->
-  <form class="my-5">
+  <form id="formSearchbar" class="my-5">
     <div class="wrapper">
-      <div class="search-input">
+      <div class="search-block position-relative">
         <input class="form-control searchbar" type="text" placeholder="Rechercher un produit / article"> <!-- onkeyup="keyTouch()" -->
-        <div class="autocom-box list-group" hidden>
+        <div class="search-icon position-absolute"><i class="fas fa-search"></i></div>
+        <div class="search-reset position-absolute" onclick="resetSearch()"><i class="fas fa-times"></i></div> <!--  -->
+        <div class="autocomp-block list-group">
           <!-- here list are inserted from javascript -->
         </div>
-        <button class="search-icon"><i class="fas fa-search"></i></button>
-      <button class="search-reset"><i class="fas fa-times"></i></button> <!-- onclick="resetSearch()" -->
       </div>
     </div>
   </form>
@@ -196,5 +196,7 @@
 <script src="node_modules/bootstrap-table/dist/extensions/print/bootstrap-table-print.min.js"></script>
 
 <script src="scripts/script.js"></script>
+<script src="scripts/searchbar.js"></script>
+<script src="scripts/tag.js"></script>
 </body>
 </html>
