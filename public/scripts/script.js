@@ -57,6 +57,7 @@ $(document).ready(function () {
                 filterControl: 'input',
                 sortable: true,
                 formatter: 'fieldFormatter',
+                footerFormatter: 'totalFormatter'
             }, {
                 field: 'employee_age',
                 title: 'Age',
@@ -66,7 +67,7 @@ $(document).ready(function () {
                 filterControl: 'input',
                 sortable: true,
                 formatter: 'fieldFormatter',
-                footerFormatter: 'totalPriceFormatter'
+                footerFormatter: 'totalFormatter'
             }, {
                 field: 'profile_image',
                 title: 'Profile image',
@@ -74,7 +75,7 @@ $(document).ready(function () {
                 // width: '50',
                 align: 'center',
                 sortable: true,
-                formatter: 'fieldFormatter',
+                formatter: 'testFormatter',
             }, {
                 field: 'tags',
                 title: 'Tags',
@@ -91,7 +92,8 @@ $(document).ready(function () {
                 align: 'center',
                 printIgnore: true,
                 sortable: true,
-                formatter: 'actionFormatter'
+                formatter: 'actionFormatter',
+                footerFormatter: 'sumFormatter'
             }]
     });
 
@@ -288,14 +290,27 @@ function totalTextFormatter(data) {
     return 'Total';
 }
 
-function totalPriceFormatter(data, value) {
-    let newData = value.employee_age;
-    return newData;
-
-    /* return value.map(function (row) {
-        alert(+row[field].value);
-        return +row[field].substring(0);
+function totalFormatter(data) {
+    let field = this.field;
+    return data.map(function (row) {
+        return row[field];
     }).reduce(function (sum, i) {
-        return sum + i;
-    }, 0) */
+        return sum + i
+    }, 0);
 }
+
+function sumFormatter(data) {
+    var field = this.field;
+
+    var total_sum = data.reduce(function(sum, row) {
+        //console.log(sum);
+        return sum + (parseInt(row[field]) || 0);
+    }, 0);
+    return total_sum;
+}
+
+function testFormatter(value, row, index, field) {
+    console.log("\nvalue:" + value + "\nrow:" + JSON.stringify(row) + "\nindex:" + index + "\nfield:" + field)
+
+}
+
